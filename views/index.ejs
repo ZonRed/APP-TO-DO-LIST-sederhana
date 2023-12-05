@@ -1,0 +1,88 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Set metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Set judul halaman -->
+    <title>To-Do List App</title>
+    <!-- Set style CSS -->
+    <style>
+        /* Gaya untuk seluruh halaman */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Gaya untuk judul halaman */
+        h1 {
+            text-align: center;
+        }
+
+        /* Gaya untuk formulir tambah tugas */
+        form {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Gaya untuk tabel daftar tugas */
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        /* Gaya untuk sel header dan sel data dalam tabel */
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Gaya tambahan untuk sel header */
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header halaman -->
+    <h1>To-Do List</h1>
+    
+    <!-- Form untuk menambahkan tugas -->
+    <form action="/add" method="POST">
+        <!-- Input untuk menambahkan tugas baru -->
+        <input type="text" name="task" required>
+        <!-- Tombol untuk menambahkan tugas -->
+        <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Daftar tugas dalam bentuk tabel -->
+    <table>
+        <!-- Baris header tabel -->
+        <thead>
+            <tr>
+                <th>Task Description</th>
+            </tr>
+        </thead>
+        <!-- Baris data dalam tabel -->
+        <tbody>
+            <!-- Loop melalui setiap tugas dan tampilkan -->
+            <% todos.forEach(todo => { %>
+                <tr>
+                    <!-- Tampilkan nama tugas dalam sel data -->
+                    <td><%= todo.task %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
