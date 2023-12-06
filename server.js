@@ -1,40 +1,41 @@
-// Import Express.js framework
+// Mengimpor modul Express.js untuk membangun aplikasi web
 const express = require('express');
 
-// Import Mongoose for MongoDB interaction
+// Mengimpor modul Mongoose untuk berinteraksi dengan MongoDB
 const mongoose = require('mongoose');
 
-// Import Body Parser for handling HTTP request data
+// Mengimpor modul Body Parser untuk mengurai data permintaan HTTP
 const bodyParser = require('body-parser');
 
-// Import EJS for rendering HTML templates
+// Mengimpor modul EJS untuk merender templat HTML
 const ejs = require('ejs');
 
-// Create an Express application
+// Membuat objek aplikasi Express
 const app = express();
 
-// Set the PORT for the server, use 3000 if not specified in the environment
+// Menetapkan PORT untuk server, menggunakan 3000 jika tidak ditentukan dalam lingkungan
 const PORT = process.env.PORT || 3000;
 
-// Connect to MongoDB using Mongoose
-mongoose.connect('mongodb://localhost/todo-list-db', { useNewUrlParser: true, useUnifiedTopology: true });
+// Menghubungkan ke MongoDB menggunakan Mongoose
+mongoose.connect('mongodb://localhost/todo-list-db');
 
-// Get the MongoDB connection
+
+// Mendapatkan objek koneksi MongoDB
 const db = mongoose.connection;
 
-// Log MongoDB connection errors
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// Mencatat kesalahan koneksi MongoDB
+db.on('error', console.error.bind(console, 'Kesalahan koneksi MongoDB:'));
 
-// Set EJS as the view engine for rendering templates
+// Mengatur EJS sebagai mesin tampilan untuk merender templat
 app.set('view engine', 'ejs');
 
-// Use Body Parser middleware to parse URL-encoded data
+// Menggunakan middleware Body Parser untuk mengurai data yang dikodekan URL
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve static files from the 'public' directory
+// Menyediakan file statis dari direktori 'public'
 app.use(express.static('public'));
 
-// Define the schema for the To-Do list items
+// Mendefinisikan skema untuk item daftar tugas
 const todoSchema = new mongoose.Schema({
   task: {
     type: String,
@@ -42,43 +43,43 @@ const todoSchema = new mongoose.Schema({
   },
 });
 
-// Create a Mongoose model based on the schema
+// Membuat model Mongoose berdasarkan skema
 const Todo = mongoose.model('Todo', todoSchema);
 
-// Define a route to handle GET requests to '/'
+// Mendefinisikan rute untuk menangani permintaan GET ke '/'
 app.get('/', async (req, res) => {
   try {
-    // Fetch all To-Do items from the database
+    // Mengambil semua item Tugas dari basis data
     const todos = await Todo.find();
 
-    // Render the 'index' template with the fetched To-Do items
+    // Merender templat 'index' dengan item Tugas yang diambil
     res.render('index', { todos: todos });
   } catch (error) {
-    // Handle errors by sending a 500 Internal Server Error response
+    // Menangani kesalahan dengan mengirim respons 500 Internal Server Error
     res.status(500).json({ error: error.message });
   }
 });
 
-// Define a route to handle POST requests to '/add'
+// Mendefinisikan rute untuk menangani permintaan POST ke '/add'
 app.post('/add', async (req, res) => {
   try {
-    // Create a new To-Do item based on the incoming request data
+    // Membuat item Tugas baru berdasarkan data permintaan yang diterima
     const newTodo = new Todo({
       task: req.body.task,
     });
 
-    // Save the new To-Do item to the database
+    // Menyimpan item Tugas baru ke basis data
     await newTodo.save();
 
-    // Redirect the user back to the home page
+    // Mengalihkan pengguna kembali ke halaman utama
     res.redirect('/');
   } catch (error) {
-    // Handle errors by sending a 500 Internal Server Error response
+    // Menangani kesalahan dengan mengirim respons 500 Internal Server Error
     res.status(500).json({ error: error.message });
   }
 });
 
-// Start the server and listen for incoming requests on the specified PORT
+// Memulai server dan mendengarkan permintaan masuk pada PORT yang ditentukan
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server berjalan di http://localhost:${PORT}`);
 });
