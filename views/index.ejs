@@ -44,7 +44,7 @@
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
-            text-align: left;
+            text-align: center; /* Tambahkan ini untuk sel tengah */
         }
 
         /* Gaya tambahan untuk sel header */
@@ -55,14 +55,14 @@
 </head>
 <body>
     <!-- Header halaman -->
-    <h1>To-Do List</h1>
+    <h1>List Yang Akan Kamu Lakukan</h1>
     
     <!-- Form untuk menambahkan tugas -->
     <form action="/add" method="POST">
         <!-- Input untuk menambahkan tugas baru -->
         <input type="text" name="task" required>
         <!-- Tombol untuk menambahkan tugas -->
-        <button type="submit">Add Task</button>
+        <button type="submit">Input</button>
     </form>
 
     <!-- Daftar tugas dalam bentuk tabel -->
@@ -70,7 +70,7 @@
         <!-- Baris header tabel -->
         <thead>
             <tr>
-                <th>Task Description</th>
+                <th>Task List Hari Ini</th>
             </tr>
         </thead>
         <!-- Baris data dalam tabel -->
